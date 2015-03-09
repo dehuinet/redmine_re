@@ -1038,8 +1038,8 @@ class ReArtifactRelationshipController < RedmineReController
     @chosen_issue = false
     @max_deep = 0
     
-    if (params[:artifact_id].present?)
-      session[:visualization_artifakt_id] = params[:artifact_id]
+    if (params[:artifact_id].present?||params[:artefakt_id].present?)
+      session[:visualization_artifakt_id] = params[:artifact_id]||params[:artefakt_id]
     end
     
     if (params[:visualization_type].present?)
@@ -1128,7 +1128,7 @@ class ReArtifactRelationshipController < RedmineReController
   
   def min_dis_issue(issue_id)
     @current_deep = @current_deep + 1
-    Realization.where("issue_id=?",issue_id).each do |relation|
+    ReRealization.where("issue_id=?",issue_id).each do |relation|
     next unless (@chosen_artifacts.include? ReArtifactProperties.find_by_id(relation.re_artifact_properties_id).artifact_type.to_s)
       if (@min_dis_artifact_arr[relation.re_artifact_properties_id] == nil || @min_dis_artifact_arr[relation.re_artifact_properties_id] > @current_deep)
         @min_dis_artifact_arr[relation.re_artifact_properties_id] = @current_deep  
