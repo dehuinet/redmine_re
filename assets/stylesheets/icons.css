@@ -10,7 +10,9 @@ a.icon {
 .project {
     background: url(../images/icons/group_gear.png);
 }
-
+.issue .project {
+    background:none;
+}
 .re_workarea {
     background: url(../images/icons/bricks.png);
 }
