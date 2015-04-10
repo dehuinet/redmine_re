@@ -98,8 +98,11 @@ class ReQueriesController < RedmineReController
       conditions << params[:except_ids] unless params[:except_ids].blank?
       conditions << params[:only_types] unless params[:only_types].blank?
       conditions << params[:except_types] unless params[:except_types].blank?
-
+      if @project.parent then
+      artifacts = ReArtifactProperties.of_project(@project.parent).without_projects
+      else
       artifacts = ReArtifactProperties.of_project(@project).without_projects
+      end
       artifacts = artifacts.all(:conditions => conditions, :order => 'name ASC')
       artifacts.map! do |artifact|
         artifact_to_json(artifact).merge({:highlighted_name => highlight_letters(artifact.name, params[:query])})
